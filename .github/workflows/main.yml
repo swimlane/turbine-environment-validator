@@ -1,0 +1,243 @@
+---
+name: "Publish turbine-environment-validator"
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+  push:
+    branches: [ main ]
+  release:
+    types:
+      - published
+
+env:
+  PACKAGE_NAME: turbine-environment-validator
+
+jobs:
+  build:
+    # When using pyinstaller, you want to compile on the oldest OS available
+    # in order to abuse the backwards-comptabile nature of GLIBC
+    name: Build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-20.04 ]
+    steps:
+
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8.10'
+          architecture: 'x64'
+
+      - name: Set output
+        id: vars
+        run: |
+          if [ $GITHUB_EVENT_NAME = "pull_request" ]; then
+             echo ::set-output name=tag::${GITHUB_HEAD_REF}
+             sed -i "s|placeholder|git+${GITHUB_SHA}|g" turbine_environment_validator/__version__.py
+          else
+             echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+             sed -i "s|placeholder|${GITHUB_REF#refs/*/}|g" turbine_environment_validator/__version__.py
+          fi
+
+      - name: Install Requirements
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install --upgrade -r requirements.txt
+
+      - name: Compile script into binary
+        working-directory: turbine_environment_validator
+        run: |
+          pyinstaller __main__.py --onefile --name turbine-environment-validator
+
+      - name: Upload Artifact for Development
+        if: ${{ github.event_name == 'pull_request' || github.event_name == 'push' }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: turbine-environment-validator
+          path: turbine_environment_validator/dist/turbine-environment-validator
+          retention-days: 5
+
+      - name: Get release
+        if: ${{ github.event_name == 'release' }}
+        id: get_release
+        uses: bruceadams/get-release@v1.2.2
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Upload Release Asset
+        if: ${{ github.event_name == 'release' }}
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.get_release.outputs.upload_url }}
+          asset_path: turbine_environment_validator/dist/turbine-environment-validator
+          asset_name: turbine-environment-validator
+          asset_content_type: application/octet-stream
+
+#  test:
+#    name: Test on ${{ matrix.os }}
+#    needs: build
+#    runs-on: ${{ matrix.os }}
+#    strategy:
+#      matrix:
+#        os: [ ubuntu-20.04 ]
+#
+#    steps:
+#      - name: Download Artifact
+#        uses: actions/download-artifact@v2
+#        with:
+#          name: ${{ needs.build.outputs.artifact-name }}
+#          path: ./ # Downloads the artifact to the current directory
+#
+#      - name: Test Application
+#        run: |
+#
+#          ls -la
+#          cd turbine-environment-validator
+#          ls -la
+#          chmod +x turbine-environment-validator
+#          ./turbine-environment-validator verify
+
+
+#
+
+#
+#---
+#
+#
+#
+#name: "Publish turbine-environment-validator"
+#
+#on:
+#  pull_request:
+#    types:
+#      - opened
+#      - synchronize
+#      - reopened
+#  push:
+#    branches: [ main ]
+#  release:
+#    types:
+#      - published
+#
+#env:
+#  PACKAGE_NAME: turbine-environment-validator
+#
+#jobs:
+#  build:
+#    # When using pyinstaller, you want to compile on the oldest OS available
+#    # in order to abuse the backwards-comptabile nature of GLIBC
+#    runs-on: ubuntu-20.04
+#    strategy:
+#      matrix:
+#        os: [ "ubuntu:22.04", "rhel8:latest"]
+#    container:
+#      image: ${{ matrix.os }}
+#
+#    steps:
+#      - name: Check out code
+#        uses: actions/checkout@v2
+#
+#      - name: Install dependencies
+#        id: set-python-version
+#        run: |
+#          if  [[ "${{ matrix.os }}" == "oraclelinux:8" ]]  || [[ "${{ matrix.os }}" == "rhel8:latest" ]]; then
+#            yum -y install centos-release-scl wget
+#            yum -y install rh-python36
+#            scl enable rh-python36 bash
+#            yum install -y libxcrypt-compat
+#          else
+#            echo "::set-output name=python_version::3.8.10"
+#          fi
+#
+#      - name: Setup Python
+#        uses: actions/setup-python@v2
+#        with:
+#          python-version: ${{ steps.set-python-version.outputs.python_version }}
+#          architecture: 'x64'
+#
+#      - name: Set output
+#        id: vars
+#        run: |
+#         if [ $GITHUB_EVENT_NAME = "pull_request" ]; then
+#            echo ::set-output name=tag::${GITHUB_HEAD_REF}
+#            sed -i "s|placeholder|git+${GITHUB_SHA}|g" turbine_environment_validator/__version__.py
+#         else
+#            echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+#            sed -i "s|placeholder|${GITHUB_REF#refs/*/}|g" turbine_environment_validator/__version__.py
+#         fi
+#
+#      - name: Set job output
+#        id: output_vars
+#        run: |
+#          echo "::set-output name=artifact-name::turbine-environment-validator-${{ steps.vars.outputs.tag }}"
+#
+#      - name: Install Requirements
+#        run: |
+#          python -m pip install --upgrade pip
+#          python -m pip install --upgrade -r requirements.txt
+#
+#      - name: Compile script into binary
+#        working-directory: turbine_environment_validator
+#        run: |
+#          pyinstaller __main__.py --onefile --name turbine-environment-validator
+#
+#      - name: Upload Artifact for Development
+#        if: ${{ github.event_name == 'pull_request' || github.event_name == 'push' }}
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: turbine-environment-validator
+#          path: turbine_environment_validator/dist/turbine-environment-validator
+#          retention-days: 30
+
+      # - name: Test Application
+      #   run: |
+      #    ls -la
+      #    cd turbine-environment-validator/dist
+      #    ls -la
+      #    chmod +x turbine-environment-validator
+      #    ./turbine-environment-validator version
+
+  # release:
+  #   needs: test
+  #   runs-on: ubuntu-20.04
+  #   steps:
+  #     - name: Download compiled binary for release
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: turbine-binary
+  #         path: turbine_environment_validator/dist
+
+  #     - name: Get release
+  #       if: ${{ github.event_name == 'release' }}
+  #       id: get_release
+  #       uses: bruceadams/get-release@v1.2.2
+  #       env:
+  #         GITHUB_TOKEN: ${{ github.token }}
+
+  #     - name: Upload Release Asset
+  #       if: ${{ github.event_name == 'release' }}
+  #       id: upload-release-asset
+  #       uses: actions/upload-release-asset@v1
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       with:
+  #         upload_url: ${{ steps.get_release.outputs.upload_url }}
+  #         asset_path: turbine_environment_validator/dist/turbine-environment-validator
+  #         asset_name: turbine-environment-validator
+  #         asset_content_type: application/octet-stream
+
+            # if [[ "${{ matrix.os }}" == "ubuntu:22.04" ]] || [[ "${{ matrix.os }}" == "ubuntu:20.04" ]] || [[ "${{ matrix.os }}" == "ubuntu:18.04" ]]; then
+          #   apt -y install build-essential libssl-dev libffi-dev python-dev
+          #   apt -y install python3-pip
+          #   pip install virtualenv
