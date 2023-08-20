@@ -125,7 +125,12 @@ def get_spec(key):
         data = _data['default']
     return data
 
-LOG_FILE_NAME = "PRE_INSTALL_CHECK_{}.txt".format(datetime.datetime.now())
+
+current_datetime = datetime.datetime.now()
+
+formatted_datetime = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")
+
+LOG_FILE_NAME = "PRE_INSTALL_CHECK_{}.txt".format(formatted_datetime)
 
 COMPUTE = get_spec('compute')
 MEMORY = get_spec('memory')
