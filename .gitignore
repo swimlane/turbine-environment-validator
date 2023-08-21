@@ -5,3 +5,4 @@ turbine_environment_validator.spec
 turbine-environment-validator.spec
 __main__.spec
 turbine_environment_validator.egg-info
+.idea

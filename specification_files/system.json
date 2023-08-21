@@ -146,19 +146,23 @@
     },
     {
       "flavour": "rhel",
+      "version": "7.8"
+    },
+    {
+      "flavour": "rhel",
       "version": "7.9"
     },
     {
       "flavour": "rhel",
-      "version": "8"
+      "version": "8.6"
+    },
+    {
+      "flavour": "rhel",
+      "version": "8.7"
     },
     {
       "flavour": "centos",
-      "version": "7"
-    },
-    {
-      "flavour": "centos",
-      "version": "8"
+      "version": "7.9"
     }
   ],
 
