@@ -13,6 +13,8 @@ logger = log_handler.setup_logger()
 def run_command(cmd):
     try:
         result = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True, universal_newlines=True)
+        logger.info("run_command")
+        logger.info(result)
         return result.strip()
     except subprocess.CalledProcessError as e:
         return str(e.output)
@@ -92,6 +94,9 @@ def os_info():
     os_support = False
     os_info = distro.name()
     os_architecture = platform.architecture()[0]
+    logger.info("os_info:"+ os_info)
+    logger.info("os_arch:" + os_architecture)
+
     try:
         os_release = run_command('cat /etc/os-release')
         if "ubuntu" in os_release.lower():
@@ -130,10 +135,10 @@ def calculate_size(s):
 
 def get_storage_details(_storage, _type):
     try:
-        logger.info('Running lsblk command to perform storage check')
         # Execute lsblk command and capture its output
         result = subprocess.run(['lsblk', '-dno', 'NAME,ROTA,SIZE'], capture_output=True, text=True, check=True)
         lines = result.stdout.strip().split('\n')
+        logger.info(result)
         # Dictionary to store memory type against each device
         memory_types = []
 
@@ -145,9 +150,11 @@ def get_storage_details(_storage, _type):
             memory_type['name'] = name
             memory_type['type'] = 'HDD' if rota == '1' else 'SSD'
             memory_type['size'] = calculate_size(size)
-
-            storage_supported = [item['name'] for item in _storage if memory_type['size'] >= item['size']]
+            logger.info("memory_type check")
+            storage_supported = [item['name'] for item in _storage if memory_type['size'] >= int(item['size'])]
+            logger.info("storage_supported check")
             storage_supported = ', '.join(storage_supported)
+            logger.info("join")
             if memory_type['type'].lower() != _type.lower():
                 storage_result = log_format('Storage Type not matched.', False)
                 storage_recommendation = log_format('Upgrade storage to ' + _type, False)
@@ -163,4 +170,5 @@ def get_storage_details(_storage, _type):
         return memory_types, True
 
     except Exception as e:
+        logger.info(e)
         return [], False
