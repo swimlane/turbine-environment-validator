@@ -5,6 +5,7 @@ import turbine_environment_validator.lib.log_handler as log_handler
 import subprocess
 import distro
 import platform
+import re
 
 
 logger = log_handler.setup_logger()
@@ -28,7 +29,10 @@ def check_ubuntu():
 
 def check_centos_rhel_ol():
     release_info = run_command('cat /etc/redhat-release')
-    version = release_info.split(' ')[2]
+    version_match = re.search(r'\b(\d+\.\d+)\b', release_info)
+    version = ''
+    if version_match:
+        version = version_match.group(1)
     if "CentOS" in release_info or "RHEL" in release_info or "Oracle Linux" in release_info:
         if version in config.ALLOWED_OS['redhat']:
             return True
@@ -92,6 +96,7 @@ def os_info():
     os_support = False
     os_info = distro.name()
     os_architecture = platform.architecture()[0]
+
     try:
         os_release = run_command('cat /etc/os-release')
         if "ubuntu" in os_release.lower():
@@ -119,21 +124,15 @@ def log_format(msg, _type):
 
 
 def calculate_size(s):
-    last_char = s[-1].lower()
-    if last_char == 't':
-        return int(s[:-1]) * 1000
-    elif last_char == 'g':
-        return int(s[:-1])
-    else:
-        return 0
+    return int(s)/(1024*1024*1024)
 
 
 def get_storage_details(_storage, _type):
     try:
-        logger.info('Running lsblk command to perform storage check')
         # Execute lsblk command and capture its output
-        result = subprocess.run(['lsblk', '-dno', 'NAME,ROTA,SIZE'], capture_output=True, text=True, check=True)
-        lines = result.stdout.strip().split('\n')
+        result = run_command('lsblk -dno NAME,ROTA,SIZE -b')
+        # result = subprocess.run(['lsblk', '-dno', 'NAME,ROTA,SIZE'], capture_output=True, text=True, check=True)
+        lines = result.strip().split('\n')
         # Dictionary to store memory type against each device
         memory_types = []
 
@@ -145,8 +144,7 @@ def get_storage_details(_storage, _type):
             memory_type['name'] = name
             memory_type['type'] = 'HDD' if rota == '1' else 'SSD'
             memory_type['size'] = calculate_size(size)
-
-            storage_supported = [item['name'] for item in _storage if memory_type['size'] >= item['size']]
+            storage_supported = [item['name'] for item in _storage if memory_type['size'] >= int(item['size'])]
             storage_supported = ', '.join(storage_supported)
             if memory_type['type'].lower() != _type.lower():
                 storage_result = log_format('Storage Type not matched.', False)
@@ -163,4 +161,5 @@ def get_storage_details(_storage, _type):
         return memory_types, True
 
     except Exception as e:
+        logger.info(e)
         return [], False
