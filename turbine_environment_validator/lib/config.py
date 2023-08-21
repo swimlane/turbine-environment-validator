@@ -5,6 +5,7 @@ import argparse
 import socket
 import json
 import datetime
+import commentjson
 
 import turbine_environment_validator.lib.log_handler as log_handler
 logger = log_handler.setup_logger()
@@ -86,7 +87,7 @@ else:
 def load_spec(spec):
     try:
         with open(spec, 'r') as file:
-            spec_data = json.load(file)
+            spec_data = commentjson.load(file)
         return spec_data
     except Exception as e:
         logger.error('error loading ' + spec + ' file. Please pass valid file')

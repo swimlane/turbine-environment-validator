@@ -1,0 +1,132 @@
+{
+  // Network configurations, including proxy settings.
+  "network": {
+    // Array of proxy configurations (currently empty).
+    "proxy": [
+    ]
+  },
+
+  // Load balancer configurations.
+  "load_balancer": [
+    // First load balancer configuration for Kubernetes API health check.
+    {
+      "lb-schema": "https",   // Protocol used.
+      "lb-fqdn": "127.0.0.1", // Fully Qualified Domain Name.
+      "lb-port": 6443,        // Port to connect to.
+      "lb-endpoint": "livez"  // Endpoint path.
+    },
+     // Second load balancer configuration for Nginx health check.
+    {
+      "lb-schema": "https",
+      "lb-fqdn": "127.0.0.1",
+      "lb-port": 443,
+      "lb-endpoint": "nginx-health"
+    },
+    // Third load balancer configuration for general health check.
+    {
+      "lb-schema": "https",
+      "lb-fqdn": "127.0.0.1",
+      "lb-port": 8800,
+      "lb-endpoint": "healthz"
+    }
+  ],
+
+   // Firewall configurations.
+  "firewall": [
+    // Each entry contains an endpoint and its expected status code.
+    // Useful for ensuring specific services are accessible.
+    {
+      "endpoint": "https://get.swimlane.io/nginx-health",
+      "status_code": 200
+    },
+    {
+      "endpoint": "https://k8s.kurl.sh",
+      "status_code": 200
+    },
+    {
+      "endpoint": "https://kurl.sh",
+      "status_code": 200
+    },
+    {
+      "endpoint": "https://kurl-sh.s3.amazonaws.com/",
+      "status_code": 200
+    },
+    {
+      "endpoint": "https://registry.replicated.com/v2",
+      "status_code": 301
+    },
+    {
+      "endpoint": "https://proxy.replicated.com/healthz",
+      "status_code": 401
+    },
+    {
+      "endpoint": "https://k8s.gcr.io",
+      "status_code": 302
+    },
+    {
+      "endpoint": "https://storage.googleapis.com",
+      "status_code": 400
+    },
+    {
+      "endpoint": "https://quay.io",
+      "status_code": 200
+    },
+    {
+      "endpoint": "https://replicated.app",
+      "status_code": 200
+    },
+    {
+      "endpoint": "https://auth.docker.io/token",
+      "status_code": 200
+    },
+    {
+      "endpoint": "https://registry-1.docker.io",
+      "status_code": 404
+    },
+    {
+      "endpoint": "https://production.cloudflare.docker.com",
+      "status_code": 403
+    },
+    {
+      "endpoint": "https://files.pythonhosted.org",
+      "status_code": 200
+    },
+    {
+      "endpoint": "https://pypi.org",
+      "status_code": 200
+    }
+  ],
+
+  // NTP configurations. Lists NTP services which can be used for time synchronization.
+  "ntp": [
+    "ntpd",                         // Network Time Protocol daemon.
+    "chronyd",                      // Another NTP daemon.
+    "systemd-timesyncd.service"     // Systemd service for time synchronization.
+  ],
+
+  // DNS configuration.
+  "dns": "swimlane.com",
+
+  // Intra-cluster port configurations. Lists ports used for internal cluster communication.
+  "intra_cluster_ports": [
+    2379,
+    2380,
+    2381,
+    6443,
+    6783,
+    6784,
+    8472,
+    10248,
+    10249,
+    10250,
+    10251,
+    10252,
+    10257,
+    10259,
+    32000,
+    32100,
+    32500,
+    32767,
+    40000
+  ]
+}

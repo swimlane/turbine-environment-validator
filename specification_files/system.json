@@ -1,0 +1,216 @@
+{
+  // Specifies if the MongoDB being used is external or not.
+  "external_mongodb": "no",
+
+  // Compute requirements for the system.
+  "compute": {
+    // Default compute requirements.
+    "default": [
+      // Single node setup with 8 CPU cores.
+      {
+        "cpu": 8,
+        "name": "single_node"
+      },
+      // 3 node cluster setup (small) with 8 CPU cores each.
+      {
+        "cpu": 8,
+        "name": "3_node_cluster_small"
+      },
+      // 3 node cluster setup (medium) with 16 CPU cores each.
+      {
+        "cpu": 16,
+        "name": "3_node_cluster_medium"
+      },
+      // 3 node cluster setup (large) with 32 CPU cores each.
+      {
+        "cpu": 32,
+        "name": "3_node_cluster_large"
+      }
+    ],
+    "default_ext_mongo": [
+      //if external_mongodb is yes, default_ext_mongo values are picked
+      {
+        "cpu": 4,
+        "name": "single_node"
+      },
+      {
+        "cpu": 4,
+        "name": "3_node_cluster_small"
+      },
+      {
+        "cpu": 8,
+        "name": "3_node_cluster_medium"
+      },
+      {
+        "cpu": 24,
+        "name": "3_node_cluster_large"
+      }
+    ]
+  },
+
+  // Memory (RAM) requirements in GB.
+  "memory": {
+    "default": [
+      {
+        "name": "single_node",
+        "ram": 8
+      },
+      {
+        "name": "3_node_cluster_small",
+        "ram": 8
+      },
+      {
+        "name": "3_node_cluster_medium",
+        "ram": 16
+      },
+      {
+        "name": "3_node_cluster_large",
+        "ram": 32
+      }
+    ],
+    "default_ext_mongo": [
+      {
+        "name": "single_node",
+        "ram": 4
+      },
+      {
+        "name": "3_node_cluster_small",
+        "ram": 4
+      },
+      {
+        "name": "3_node_cluster_medium",
+        "ram": 8
+      },
+      {
+        "name": "3_node_cluster_large",
+        "ram": 24
+      }
+    ]
+  },
+
+ // Storage requirements
+  "storage": {
+    // Type of storage to be used.
+    "type": "ssd",
+    // Default storage requirements.
+    "default": [
+      {
+        "name": "single_node",
+        "size": 600 // GB
+      },
+      {
+        "name": "3_node_cluster_small",
+        "size": 600 //GB
+      },
+      {
+        "name": "3_node_cluster_medium",
+        "size": 1024
+      },
+      {
+        "name": "3_node_cluster_large",
+        "size": 1024
+      }
+    ],
+
+    // Storage requirements if external MongoDB is used.
+    "default_ext_mongo": [
+      {
+        "name": "single_node",
+        "size": 300
+      },
+      {
+        "name": "3_node_cluster_small",
+        "size": 300
+      },
+      {
+        "name": "3_node_cluster_medium",
+        "size": 300
+      },
+      {
+        "name": "3_node_cluster_large",
+        "size": 300
+      }
+    ]
+  },
+
+  // Supported operating systems.
+  // list of OS flavors and versions
+  "os": [
+    {
+      "flavour": "ubuntu",
+      "version": "22.04"
+    },
+    {
+      "flavour": "ubuntu",
+      "version": "20.04"
+    },
+    {
+      "flavour": "rhel",
+      "version": "7.9"
+    },
+    {
+      "flavour": "rhel",
+      "version": "8"
+    },
+    {
+      "flavour": "centos",
+      "version": "7"
+    },
+    {
+      "flavour": "centos",
+      "version": "8"
+    }
+  ],
+
+  // Directories in the system with their minimum required sizes.
+  "directory": [
+    {
+      "minimum_size": "50",
+      "path": "/"
+    },
+    {
+      "minimum_size": "50",
+      "path": "/opt"
+    },
+    {
+      "minimum_size": "100",
+      "path": "/var/lib/docker"
+    },
+    {
+      "minimum_size": "100",
+      "path": "/var/lib/kubelet"
+    },
+    {
+      "minimum_size": "50",
+      "path": "/var/openebs"
+    }
+  ],
+
+   // Directories that need to be mounted.
+  "directory_mount": [
+    "/var/openebs",
+    "/var/lib/docker",
+    "/var/lib/kubelet",
+    "/opt"
+  ],
+
+   // List of executables that are disallowed.
+  "disallowed_executables": [
+    {
+      "name": "Docker",
+      "value": "docker"
+    },
+    {
+      "name": "Kubernetes Component",
+      "value": "kubelet"
+    },
+    {
+      "name": "Container CLI",
+      "value": "ctr"
+    },
+    {
+      "name": "Containerd",
+      "value": "containerd"
+    }
+  ]
+}
