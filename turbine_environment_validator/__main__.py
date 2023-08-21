@@ -172,9 +172,9 @@ def main():
         check_results['checks']['http_proxy_config'].update(config.NETWORK)
 
         # Endpoint check
-        # if config.FIREWALL and not config.arguments.offline:
-        #     check_results['checks']['public_endpoint_checks'].update(
-        #         verify_public_endpoints.check_endpoints(config.FIREWALL, config.NETWORK))
+        if config.FIREWALL and not config.arguments.offline:
+            check_results['checks']['public_endpoint_checks'].update(
+                verify_public_endpoints.check_endpoints(config.FIREWALL, config.NETWORK))
 
         # NTP Check
         if config.NTP:
@@ -188,11 +188,11 @@ def main():
             check_results['checks']['dns'] = dns_res
 
         # Load Balancer Check
-        # if config.LB_CONNECTIVITY_ENDPOINTS:
-        #     http_listener.start_lb_listener_threads(config.LB_CONNECTIVITY_PORTS)
-        #     logger.info('Sleeping for 90 seconds to allow LB to see that we are live')
-        #     time.sleep(90)
-        #     check_results['checks']['load_balancer_port_checks'].update(verify_load_balancer.verify_port_connectivity(config.LB_CONNECTIVITY_ENDPOINTS))
+        if config.LB_CONNECTIVITY_ENDPOINTS:
+            http_listener.start_lb_listener_threads(config.LB_CONNECTIVITY_PORTS)
+            logger.info('Sleeping for 90 seconds to allow LB to see that we are live')
+            time.sleep(90)
+            check_results['checks']['load_balancer_port_checks'].update(verify_load_balancer.verify_port_connectivity(config.LB_CONNECTIVITY_ENDPOINTS))
 
         table.print_table(check_results['checks'])
 

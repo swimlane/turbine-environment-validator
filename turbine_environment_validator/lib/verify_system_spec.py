@@ -13,9 +13,7 @@ logger = log_handler.setup_logger()
 
 def run_command(cmd):
     try:
-        logger.info(cmd)
         result = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True, universal_newlines=True)
-        logger.info(result)
         return result.strip()
     except subprocess.CalledProcessError as e:
         return str(e.output)
@@ -35,7 +33,6 @@ def check_centos_rhel_ol():
     version = ''
     if version_match:
         version = version_match.group(1)
-    logger.info("centos version:" + version)
     if "CentOS" in release_info or "RHEL" in release_info or "Oracle Linux" in release_info:
         if version in config.ALLOWED_OS['redhat']:
             return True
@@ -99,8 +96,6 @@ def os_info():
     os_support = False
     os_info = distro.name()
     os_architecture = platform.architecture()[0]
-    logger.info("os_info:"+ os_info)
-    logger.info("os_arch:" + os_architecture)
 
     try:
         os_release = run_command('cat /etc/os-release')
@@ -135,11 +130,9 @@ def calculate_size(s):
 def get_storage_details(_storage, _type):
     try:
         # Execute lsblk command and capture its output
-        logger.info("printing lsblk")
         result = run_command('lsblk -dno NAME,ROTA,SIZE -b')
         # result = subprocess.run(['lsblk', '-dno', 'NAME,ROTA,SIZE'], capture_output=True, text=True, check=True)
         lines = result.strip().split('\n')
-        logger.info(result)
         # Dictionary to store memory type against each device
         memory_types = []
 
@@ -151,11 +144,8 @@ def get_storage_details(_storage, _type):
             memory_type['name'] = name
             memory_type['type'] = 'HDD' if rota == '1' else 'SSD'
             memory_type['size'] = calculate_size(size)
-            logger.info("memory_type check")
             storage_supported = [item['name'] for item in _storage if memory_type['size'] >= int(item['size'])]
-            logger.info("storage_supported check")
             storage_supported = ', '.join(storage_supported)
-            logger.info("join")
             if memory_type['type'].lower() != _type.lower():
                 storage_result = log_format('Storage Type not matched.', False)
                 storage_recommendation = log_format('Upgrade storage to ' + _type, False)
