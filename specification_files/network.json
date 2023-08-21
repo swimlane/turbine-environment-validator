@@ -49,7 +49,7 @@
     },
     {
       "endpoint": "https://kurl-sh.s3.amazonaws.com/",
-      "status_code": 200
+      "status_code": 400
     },
     {
       "endpoint": "https://registry.replicated.com/v2",
