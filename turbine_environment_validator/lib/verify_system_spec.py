@@ -5,6 +5,7 @@ import turbine_environment_validator.lib.log_handler as log_handler
 import subprocess
 import distro
 import platform
+import re
 
 
 logger = log_handler.setup_logger()
@@ -30,7 +31,10 @@ def check_ubuntu():
 
 def check_centos_rhel_ol():
     release_info = run_command('cat /etc/redhat-release')
-    version = release_info.split(' ')[2]
+    version_match = re.search(r'\b(\d+\.\d+)\b', release_info)
+    version = ''
+    if version_match:
+        version = version_match.group(1)
     logger.info("centos version:" + version)
     if "CentOS" in release_info or "RHEL" in release_info or "Oracle Linux" in release_info:
         if version in config.ALLOWED_OS['redhat']:
@@ -125,20 +129,14 @@ def log_format(msg, _type):
 
 
 def calculate_size(s):
-    last_char = s[-1].lower()
-    if last_char == 't':
-        return int(s[:-1]) * 1000
-    elif last_char == 'g':
-        return int(s[:-1])
-    else:
-        return 0
+    return int(s)/(1024*1024*1024)
 
 
 def get_storage_details(_storage, _type):
     try:
         # Execute lsblk command and capture its output
         logger.info("printing lsblk")
-        result = run_command('lsblk -dno NAME,ROTA,SIZE')
+        result = run_command('lsblk -dno NAME,ROTA,SIZE -b')
         # result = subprocess.run(['lsblk', '-dno', 'NAME,ROTA,SIZE'], capture_output=True, text=True, check=True)
         lines = result.strip().split('\n')
         logger.info(result)
