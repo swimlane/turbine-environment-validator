@@ -12,8 +12,8 @@ logger = log_handler.setup_logger()
 
 def run_command(cmd):
     try:
+        logger.info(cmd)
         result = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True, universal_newlines=True)
-        logger.info("run_command")
         logger.info(result)
         return result.strip()
     except subprocess.CalledProcessError as e:
@@ -31,6 +31,7 @@ def check_ubuntu():
 def check_centos_rhel_ol():
     release_info = run_command('cat /etc/redhat-release')
     version = release_info.split(' ')[2]
+    logger.info("centos version:" + version)
     if "CentOS" in release_info or "RHEL" in release_info or "Oracle Linux" in release_info:
         if version in config.ALLOWED_OS['redhat']:
             return True
@@ -136,8 +137,10 @@ def calculate_size(s):
 def get_storage_details(_storage, _type):
     try:
         # Execute lsblk command and capture its output
-        result = subprocess.run(['lsblk', '-dno', 'NAME,ROTA,SIZE'], capture_output=True, text=True, check=True)
-        lines = result.stdout.strip().split('\n')
+        logger.info("printing lsblk")
+        result = run_command('lsblk -dno NAME,ROTA,SIZE')
+        # result = subprocess.run(['lsblk', '-dno', 'NAME,ROTA,SIZE'], capture_output=True, text=True, check=True)
+        lines = result.strip().split('\n')
         logger.info(result)
         # Dictionary to store memory type against each device
         memory_types = []
