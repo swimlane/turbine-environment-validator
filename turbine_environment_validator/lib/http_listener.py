@@ -20,18 +20,6 @@ def serve_on_port(port):
     def catch_all(path):
         return '{ "status" : "ok" }'
 
-
-    # Silence the Flask development server logging
-    # if config.arguments.debug == False:
-    #     def secho(text, file=None, nl=None, err=None, color=None, **styles):
-    #         pass
-    #
-    #     def echo(text, file=None, nl=None, err=None, color=None, **styles):
-    #         pass
-
-        click.echo = echo
-        click.secho = secho
-
     try:
         app.run(host='0.0.0.0', port=port, ssl_context='adhoc')
     except Exception:

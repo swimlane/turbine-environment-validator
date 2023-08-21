@@ -103,17 +103,6 @@ def print_table(checks):
             x.add_row(row)
         write_log(f, x.get_string())
 
-    #
-    #
-    # if config.arguments.verify_pip:
-    #     x = PrettyTable()
-    #     x.title = 'Pip Checks'
-    #     x.field_names = ['Message', 'Result']
-    #     for k,v in checks['pip_checks'].items():
-    #         row = [*v.values()]
-    #         x.add_row(row)
-    #     print(x.get_string())
-
     if config.NTP:
         x = PrettyTable()
         x.title = 'Time Syncing Services'
@@ -133,9 +122,6 @@ def print_table(checks):
     x.add_row(row)
     write_log(f, x.get_string())
 
-    #
-    #
-    #
     if config.DISALLOWED_EXECUTABLES:
         x = PrettyTable()
         x.title = 'Disallowed Executables'
