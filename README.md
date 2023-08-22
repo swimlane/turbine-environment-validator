@@ -1,5 +1,4 @@
 # Turbine-environment-validator
----
 ## Overview
 This package contains everything you need to verify and ensure that your system adheres to specific requirements and configurations. The installer provided will perform checks on a Linux system using configurations provided in the system.json and network.json files. It can validate against the provided JSON schema files to ensure the correctness of configurations.
 
@@ -57,7 +56,7 @@ chmod +x ./turbine-environment-validator
     - --lb-fqdn: Load Balancer FQDN (Default is the hostname of the node running the verifier script).
     - --network-spec: Path to Network Specification JSON file (Default: network.json in the package directory).
 
----
+
 ## Configuration GUI for system.json and network.json
 While advanced users can directly edit the `system.json` and `network.json` using their preferred text editor, we understand that not everyone is comfortable with direct JSON editing. To simplify this process and make the configuration accessible to users of all technical levels, we've enabled a GUI-based approach. Users can now use the provided JSON schema files (system.schema.json and network.schema.json) on an online JSON editor for a more intuitive, visual configuration experience.
 
