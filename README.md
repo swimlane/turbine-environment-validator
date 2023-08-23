@@ -1,6 +1,6 @@
 # Turbine-environment-validator
 ## Overview
-This package contains everything you need to verify and ensure that your system adheres to specific requirements and configurations. The installer provided will perform checks on a Linux system using configurations provided in the system.json and network.json files. It can validate against the provided JSON schema files to ensure the correctness of configurations.
+This package contains everything you need to verify and ensure that your system adheres to specific requirements and configurations. The installer provided will perform checks on a Linux system using configurations provided in the system.json and network.json files. 
 
 This binary will run through various checks for the Turbine Platform Installer. It is designed to be run by the customer to verify their environment before engaging PS for the installation. This script is highly configurable, with various options to skip checks. Most checks are enabled by default. See `turbine-environment-validator verify --help` for more information.
 

@@ -54,7 +54,7 @@ def print_table(checks):
     if config.DIRECTORY_SIZES:
         x = PrettyTable()
         x.title = 'Directory Sizes'
-        x.field_names = ['Directory', 'Total Space Size', 'Percentage Used', 'Message', 'Minimum Requirement', 'Result']
+        x.field_names = ['Directory', 'Total Space Size (GB)', 'Percentage Used', 'Message', 'Minimum Requirement (GB)', 'Result']
         for k,v in checks['directory_size_checks'].items():
             row = [*v.values()]
             row.insert(0,k)
