@@ -50,7 +50,7 @@ chmod +x ./turbine-environment-validator
 - verify: Run the environment verifier.
     - --system-spec: Path to System Specification JSON file (Default: system.json in the package directory).
     - --network-spec: Path to Network Specification JSON file (Default: network.json in the package directory).
-    - --offline: Run in Offline mode. Disable any online checks.
+    - --offline: Run in Offline mode for Airgap deployment. Disable any online checks.
     - --enable-listeners: Enable listeners if your load balancer has no healthy nodes.
 - listener: Load Balancer Listener daemon.
     - --lb-fqdn: Load Balancer FQDN (Default is the hostname of the node running the verifier script).
