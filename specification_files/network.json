@@ -48,7 +48,7 @@
       "status_code": 200
     },
     {
-      "endpoint": "https://kurl-sh.s3.amazonaws.com/",
+      "endpoint": "https://kurl-sh.s3.amazonaws.com/dist/ekco-0.6.0.tar.gz",
       "status_code": 200
     },
     {
