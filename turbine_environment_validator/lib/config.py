@@ -50,9 +50,6 @@ listener_action.add_argument("--lb-fqdn", type=str, default=socket.gethostname()
 verify_action.add_argument("--offline", type=str2bool, default=False,
                         help="Run in Offline mode.")
 
-verify_action.add_argument("--external-mongo", type=str2bool, default=False,
-                        help="Standalone/ Atlas based MongoDB.")
-
 verify_action.add_argument("--enable-listeners", type=str2bool, default=True,
                         help="Enable listeners if your load balancer has no healthy nodes.")
 
@@ -97,7 +94,8 @@ def get_spec(key):
     _data = SYSTEM_SPEC.get(key, [])
     if not _data:
         return _data
-    if arguments.external_mongo or SYSTEM_SPEC['external_mongodb'].lower() == "yes":
+    _mongo = SYSTEM_SPEC['external_mongodb'].lower()
+    if _mongo == "yes" or _mongo == "y" or _mongo == "true":
         data = _data['default_ext_mongo']
     else:
         data = _data['default']
