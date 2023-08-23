@@ -14,7 +14,7 @@ def get_endpoint(endpoint_url, acceptable_status_code, network):
     }
 
     try:
-        logger.info(endpoint_url, network)
+        # logger.info(endpoint_url, network)
         r = requests.get(endpoint_url, timeout=10, allow_redirects=False, proxies=network)
     except:
         logger.error('Response from {} timed out or failed after 10s.'.format(endpoint_url))

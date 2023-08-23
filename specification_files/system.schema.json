@@ -1,0 +1,407 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "properties": {
+      "external_mongodb": {
+        "default": "no",
+        "description": "yes, if user opts for standalone/ atlas based MongoDB",
+        "enum": [
+          "yes",
+          "no"
+        ],
+        "type": "string"
+      },
+      "compute": {
+        "properties": {
+          "default": {
+            "default": [
+              {
+                "cpu": 8,
+                "name": "single_node"
+              },
+              {
+                "cpu": 8,
+                "name": "3_node_cluster_small"
+              },
+              {
+                "cpu": 16,
+                "name": "3_node_cluster_medium"
+              },
+              {
+                "cpu": 32,
+                "name": "3_node_cluster_large"
+              }
+            ],
+            "items": {
+              "properties": {
+                "cpu": {
+                  "default": 8,
+                  "type": "integer"
+                },
+                "name": {
+                  "default": "single_node",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "cpu"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "default_ext_mongo": {
+            "default": [
+              {
+                "cpu": 4,
+                "name": "single_node"
+              },
+              {
+                "cpu": 4,
+                "name": "3_node_cluster_small"
+              },
+              {
+                "cpu": 8,
+                "name": "3_node_cluster_medium"
+              },
+              {
+                "cpu": 24,
+                "name": "3_node_cluster_large"
+              }
+            ],
+            "items": {
+              "properties": {
+                "cpu": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "cpu"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "memory": {
+        "properties": {
+          "default": {
+            "default": [
+              {
+                "name": "single_node",
+                "ram": 8
+              },
+              {
+                "name": "3_node_cluster_small",
+                "ram": 8
+              },
+              {
+                "name": "3_node_cluster_medium",
+                "ram": 16
+              },
+              {
+                "name": "3_node_cluster_large",
+                "ram": 32
+              }
+            ],
+            "items": {
+              "properties": {
+                "name": {
+                  "default": "single_node",
+                  "type": "string"
+                },
+                "ram": {
+                  "default": 8,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "name",
+                "ram"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "default_ext_mongo": {
+            "default": [
+              {
+                "name": "single_node",
+                "ram": 4
+              },
+              {
+                "name": "3_node_cluster_small",
+                "ram": 4
+              },
+              {
+                "name": "3_node_cluster_medium",
+                "ram": 8
+              },
+              {
+                "name": "3_node_cluster_large",
+                "ram": 24
+              }
+            ],
+            "items": {
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "ram": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "name",
+                "ram"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "required": [],
+        "type": "object"
+      },
+      "storage": {
+        "properties": {
+          "default": {
+            "default": [
+              {
+                "name": "single_node",
+                "size": 600
+              },
+              {
+                "name": "3_node_cluster_small",
+                "size": 600
+              },
+              {
+                "name": "3_node_cluster_medium",
+                "size": 1024
+              },
+              {
+                "name": "3_node_cluster_large",
+                "size": 1024
+              }
+            ],
+            "items": {
+              "properties": {
+                "name": {
+                  "default": "single_node",
+                  "type": "string"
+                },
+                "size": {
+                  "default": 600,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "name",
+                "size"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "default_ext_mongo": {
+            "default": [
+              {
+                "name": "single_node",
+                "size": 300
+              },
+              {
+                "name": "3_node_cluster_small",
+                "size": 300
+              },
+              {
+                "name": "3_node_cluster_medium",
+                "size": 300
+              },
+              {
+                "name": "3_node_cluster_large",
+                "size": 300
+              }
+            ],
+            "items": {
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "size": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "name",
+                "size"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "type": {
+            "enum": [
+              "ssd"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "type": "object"
+      },
+      "directory": {
+        "default": [
+          {
+            "minimum_size": 50,
+            "path": "/"
+          },
+          {
+            "minimum_size": 50,
+            "path": "/opt"
+          },
+          {
+            "minimum_size": 100,
+            "path": "/var/lib/docker"
+          },
+          {
+            "minimum_size": 100,
+            "path": "/var/lib/kubelet"
+          },
+          {
+            "minimum_size": 50,
+            "path": "/var/openebs"
+          }
+        ],
+        "items": {
+          "properties": {
+            "minimum_size": {
+              "type": "string"
+            },
+            "path": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "path",
+            "minimum_size"
+          ],
+          "type": "object"
+        },
+        "type": "array"
+      },
+      "directory_mount": {
+        "default": [
+          "/var/openebs",
+          "/var/lib/docker",
+          "/var/lib/kubelet",
+          "/opt"
+        ],
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "disallowed_executables": {
+        "default": [
+          {
+            "name": "Docker",
+            "value": "docker"
+          },
+          {
+            "name": "Kubernetes Component",
+            "value": "kubelet"
+          },
+          {
+            "name": "Container CLI",
+            "value": "ctr"
+          },
+          {
+            "name": "Containerd",
+            "value": "containerd"
+          }
+        ],
+        "items": {
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "value": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "name",
+            "value"
+          ],
+          "type": "object"
+        },
+        "type": "array"
+      },
+      "os": {
+        "default": [
+          {
+            "flavour": "ubuntu",
+            "version": "22.04"
+          },
+          {
+            "flavour": "ubuntu",
+            "version": "20.04"
+          },
+          {
+            "flavour": "rhel",
+            "version": "7.8"
+          },
+          {
+            "flavour": "rhel",
+            "version": "7.9"
+          },
+          {
+            "flavour": "rhel",
+            "version": "8.6"
+          },
+          {
+            "flavour": "rhel",
+            "version": "8.7"
+          },
+          {
+            "flavour": "centos",
+            "version": "7.9"
+          }
+        ],
+        "items": {
+          "properties": {
+            "flavour": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "flavour",
+            "version"
+          ],
+          "type": "object"
+        },
+        "type": "array"
+      }
+    },
+    "required": [
+      "compute",
+      "memory",
+      "storage",
+      "os",
+      "directory",
+      "directory_mount",
+      "disallowed_executables"
+    ],
+    "type": "object"
+  }
