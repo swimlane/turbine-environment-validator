@@ -175,10 +175,12 @@ def print_table(checks):
     f.write("\n")
     f.write("---Logging System and Network Specifications files used---\n")
     f.write("\n")
-    f.write(json.dumps(config.SYSTEM_SPEC))
+    f.write(json.dumps(config.SYSTEM_SPEC, indent = 1))
     f.write("\n")
-    f.write(json.dumps(config.NETWORK_SPEC))
-    logger.info("Log File "+ config.LOG_FILE_NAME + " stored!")
+    f.write(json.dumps(config.NETWORK_SPEC, indent = 1))
 
+    _log = "Log File "+ config.LOG_FILE_NAME + " stored!"
+    log_file_msg = "{}{}{}".format(config.WARNING, _log, config.ENDC)
+    write_log(f, log_file_msg)
 
     f.close()
