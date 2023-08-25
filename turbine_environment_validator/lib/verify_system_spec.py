@@ -22,9 +22,9 @@ def run_command(cmd):
 def check_ubuntu():
     release_info = run_command('lsb_release -rs')
     if release_info in config.ALLOWED_OS['ubuntu']:
-        return True
+        return release_info, True
     else:
-        return False
+        return release_info, False
 
 
 def check_centos_rhel_ol():
@@ -35,9 +35,9 @@ def check_centos_rhel_ol():
         version = version_match.group(1)
     if "CentOS" in release_info or "RHEL" in release_info or "Oracle Linux" in release_info:
         if version in config.ALLOWED_OS['redhat']:
-            return True
+            return version, True
         else:
-            return False
+            return version, False
     return False
 
 
@@ -46,8 +46,8 @@ def check_amazon_linux():
         with open('/etc/system-release', 'r') as file:
             release_info = file.read()
             if "Amazon Linux 2" in release_info:
-                return True
-    return False
+                return release_info, True
+    return release_info, False
 
 
 def get_compute():
@@ -96,24 +96,25 @@ def os_info():
     os_support = False
     os_info = distro.name()
     os_architecture = platform.architecture()[0]
+    os_ver = "-"
 
     try:
         os_release = run_command('cat /etc/os-release')
         if "ubuntu" in os_release.lower():
-            os_support = check_ubuntu()
+            os_ver,  os_support = check_ubuntu()
         elif "centos" in os_release.lower() or "rhel" in os_release.lower() or "oracle linux" in os_release.lower():
-            os_support = check_centos_rhel_ol()
+            os_ver, os_support = check_centos_rhel_ol()
         elif "amazon linux" in os_release.lower():
-            os_support = check_amazon_linux()
+            os_ver, os_support = check_amazon_linux()
         else:
-            os_support = False
+            os_ver, os_support = "-", False
     except Exception as e:
         print("An error occurred:", str(e))
 
     if os_architecture != '64bit':
         os_support = False
 
-    return os_info, os_architecture, os_support
+    return os_info, os_architecture, os_support, os_ver
 
 
 def log_format(msg, _type):

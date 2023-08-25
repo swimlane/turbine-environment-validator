@@ -148,11 +148,12 @@ def main():
                 ]
             check_results['checks']['storage'] = storage_available
 
-        os_info, os_architecture, os_support = verify_system_spec.os_info()
+        os_info, os_architecture, os_support, os_ver = verify_system_spec.os_info()
         os_recommendation = '-' if os_support else log_format('OS not supported.', False)
 
         os_details = {
             "info": f"{os_info} {os_architecture}",
+            "version": {os_ver},
             "message": os_recommendation,
             "result": log_format('Passed', True) if os_support else log_format('Failed', False)
         }

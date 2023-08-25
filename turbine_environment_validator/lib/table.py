@@ -117,7 +117,7 @@ def print_table(checks):
 
     x = PrettyTable()
     x.title = 'Operating System Info'
-    x.field_names = ['Name', 'Message', 'Result']
+    x.field_names = ['Name', 'Version', 'Message', 'Result']
     row = checks['os_details'].values()
     x.add_row(row)
     write_log(f, x.get_string())
