@@ -13,6 +13,7 @@ This binary will run through various checks for the Turbine Platform Installer. 
 
 ## Usage
 If preparing for a new Swimlane installation.
+
 For CentOS / Red Hat:
 ```
 yum update -y
@@ -31,7 +32,7 @@ pip install virtualenv
 
 And finally, for either Ubuntu or CentOS / Red Hat:
 ```
-wget https://github.com/swimlane/turbine-environment-validator/releases/download/1.0.0/turbine-environment-validator
+wget https://github.com/swimlane/turbine-environment-validator/releases/download/1.0.0/turbine-environment-validator.zip
 chmod +x ./turbine-environment-validator
 ./turbine-environment-validator verify
 ```
