@@ -6,6 +6,10 @@ import os
 logger = log_handler.setup_logger()
 
 
+def check_write_permission(directory):
+    return os.access(directory, os.W_OK)
+
+
 def check_directory_size(directories):
     results = {}
 
@@ -56,9 +60,16 @@ def check_directory_size(directories):
             result['result'] = "{}Passed{}".format(config.OK, config.ENDC)
         else:
             logger.error('{} is less than {} worth of space'.format(directory, minimum_size))
-            result['message'] = "{} is not large enough to meet minimum requirements.".format(directory)
+            result['message'] = "{} is not large enough.".format(directory)
             result['minimum'] = minimum_size
             result['result'] = "{}Failed{}".format(config.FAIL, config.ENDC)
+
+        if not check_write_permission(directory):
+            result['result'] = "{}Failed{}".format(config.FAIL, config.ENDC)
+            if result['message'] == '-':
+                result['message'] = "No Write Permission."
+            result['message'] = result['message'] + " No Write Permission."
+
         results[directory] = result
     return results
 

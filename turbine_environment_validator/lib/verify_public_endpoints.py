@@ -26,10 +26,12 @@ def get_endpoint(endpoint_url, acceptable_status_code, network):
     logger.debug(r.status_code)
 
     endpoint_result['status_code'] = r.status_code
-
     if r.status_code == acceptable_status_code:
         logger.info('Response from {} is ok'.format(endpoint_url))
-        endpoint_result['result'] = "{}Passed{}".format(config.OK, config.ENDC)
+        if acceptable_status_code >= 400:
+            endpoint_result['result'] = "{}Passed{}".format(config.WARNING, config.ENDC)
+        else:
+            endpoint_result['result'] = "{}Passed{}".format(config.OK, config.ENDC)
     else:
         logger.error('Response from {} is not ok'.format(endpoint_url))
         endpoint_result['result'] = "{}Failed{}".format(config.FAIL, config.ENDC)
