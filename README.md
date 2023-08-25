@@ -32,9 +32,10 @@ pip install virtualenv
 
 And finally, for either Ubuntu or CentOS / Red Hat:
 ```
-wget https://github.com/swimlane/turbine-environment-validator/releases/download/1.0.0/turbine-environment-validator.zip
-chmod +x ./turbine-environment-validator
-./turbine-environment-validator verify
+wget https://github.com/swimlane/turbine-environment-validator/releases/download/1.0.0/turbine-env-validator-1.0.0.zip
+chmod +x ./turbine-env-validator
+./turbine-env-validator verify
+
 ```
 
 ### Running the Installer
