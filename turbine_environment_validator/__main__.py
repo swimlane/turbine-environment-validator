@@ -153,7 +153,7 @@ def main():
 
         os_details = {
             "info": f"{os_info} {os_architecture}",
-            "version": {os_ver},
+            "version": f"{os_ver}",
             "message": os_recommendation,
             "result": log_format('Passed', True) if os_support else log_format('Failed', False)
         }
