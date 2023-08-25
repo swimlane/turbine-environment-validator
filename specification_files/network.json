@@ -3,8 +3,14 @@
   "network": {
     // Array of proxy configurations (currently empty).
     "proxy": [
+      // "http": "example.com",
+      // "https: "example.com",
+      // "ftp": "example.com"
     ]
   },
+
+  // DNS configuration.
+  "dns": "swimlane.com",
 
   // Load balancer configurations.
   "load_balancer": [
@@ -103,9 +109,6 @@
     "chronyd",                      // Another NTP daemon.
     "systemd-timesyncd.service"     // Systemd service for time synchronization.
   ],
-
-  // DNS configuration.
-  "dns": "swimlane.com",
 
   // Intra-cluster port configurations. Lists ports used for internal cluster communication.
   "intra_cluster_ports": [

@@ -54,29 +54,30 @@ jobs:
         working-directory: turbine_environment_validator
         run: |
           pyinstaller __main__.py --onefile --name turbine-environment-validator
-      - name: Upload Artifact for Development
-        if: ${{ github.event_name == 'pull_request' || github.event_name == 'push' }}
-        uses: actions/upload-artifact@v2
-        with:
-          name: turbine-environment-validator
-          path: turbine_environment_validator/dist/turbine-environment-validator
-          retention-days: 5
 
-      - name: Get release
-        if: ${{ github.event_name == 'release' }}
-        id: get_release
-        uses: bruceadams/get-release@v1.2.2
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-
-      - name: Upload Release Asset
-        if: ${{ github.event_name == 'release' }}
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.get_release.outputs.upload_url }}
-          asset_path: turbine_environment_validator/dist/turbine-environment-validator
-          asset_name: turbine-environment-validator
-          asset_content_type: application/octet-stream
+#      - name: Upload Artifact for Development
+#        if: ${{ github.event_name == 'pull_request' || github.event_name == 'push' }}
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: turbine-environment-validator
+#          path: turbine_environment_validator/dist/turbine-environment-validator
+#          retention-days: 5
+#
+#      - name: Get release
+#        if: ${{ github.event_name == 'release' }}
+#        id: get_release
+#        uses: bruceadams/get-release@v1.2.2
+#        env:
+#          GITHUB_TOKEN: ${{ github.token }}
+#
+#      - name: Upload Release Asset
+#        if: ${{ github.event_name == 'release' }}
+#        id: upload-release-asset
+#        uses: actions/upload-release-asset@v1
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          upload_url: ${{ steps.get_release.outputs.upload_url }}
+#          asset_path: turbine_environment_validator/dist/turbine-environment-validator
+#          asset_name: turbine-environment-validator
+#          asset_content_type: application/octet-stream
