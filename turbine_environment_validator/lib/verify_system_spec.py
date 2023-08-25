@@ -147,7 +147,7 @@ def get_storage_details(_storage, _type):
             storage_supported = [item['name'] for item in _storage if memory_type['size'] >= int(item['size'])]
             storage_supported = ', '.join(storage_supported)
             if memory_type['type'].lower() != _type.lower():
-                storage_result = log_format('Storage Type not matched.', False)
+                storage_result = log_format('Storage Type not matched with value in specification file.', False)
                 storage_recommendation = log_format('Upgrade storage to ' + _type, False)
             else:
                 storage_result = f"{log_format('Supports', True)} {storage_supported} " \
