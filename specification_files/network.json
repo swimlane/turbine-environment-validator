@@ -100,6 +100,30 @@
     {
       "endpoint": "https://pypi.org",
       "status_code": 200
+    },
+    {
+      "endpoint": "https://api.snapcraft.io",
+      "status_code": 200
+    },
+    {
+      "endpoint": "http://proxy-auth.replicated.com/",
+      "status_code": 404
+    },    
+    {
+      "endpoint": "https://registry.npmjs.org/",
+      "status_code": 200
+    },
+    {
+      "endpoint": "https://www.google-analytics.com/",
+      "status_code": 200
+    },
+    {
+      "endpoint": "https://subnet.min.io/",
+      "status_code": 200
+    },
+    {
+      "endpoint": "https://www.docker.com/",
+      "status_code": 200
     }
   ],
 

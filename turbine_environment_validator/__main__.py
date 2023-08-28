@@ -84,6 +84,13 @@ def main():
                 "result":  log_format('Passed', True) if numa_check else log_format('Failed', False),
             }
         })
+        ip_forward_check, ip_msg = verify_prerequisites.is_ip_forwarding_enabled()
+        check_results['checks']['prerequisites'].update({
+            "IP forwarding": {
+                "message": '-' if ip_forward_check else log_format(ip_msg, False),
+                "result": log_format('Passed', True) if ip_forward_check else log_format('Failed', False)
+            }
+        })
 
         # Compute check
         if config.COMPUTE:

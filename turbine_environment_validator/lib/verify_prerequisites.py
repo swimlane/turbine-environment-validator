@@ -42,3 +42,14 @@ def is_numa_disabled():
       return True if not numa_enabled else False
     except:
       return False
+
+
+def is_ip_forwarding_enabled():
+    try:
+        output = subprocess.check_output("sysctl -a", shell=True, stderr=subprocess.STDOUT).decode()
+        if "net.ipv4.ip_forward = 1" in output:
+            return True, "-"
+        else:
+            return False, "Enable IP forwarding in /etc/sysctl.conf"
+    except:
+        return False, "Linux command sysctl failed"
