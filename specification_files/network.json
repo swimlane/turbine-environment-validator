@@ -124,6 +124,10 @@
     {
       "endpoint": "https://www.docker.com/",
       "status_code": 200
+    },
+    {
+      "endpoint": "https://www.s3.kurl.sh/",
+      "status_code": 403
     }
   ],
 
