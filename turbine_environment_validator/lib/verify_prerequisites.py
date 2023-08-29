@@ -1,5 +1,6 @@
 import os
 import subprocess
+import psutil
 
 import turbine_environment_validator.lib.log_handler as log_handler
 logger = log_handler.setup_logger()
@@ -53,3 +54,14 @@ def is_ip_forwarding_enabled():
             return False, "Enable IP forwarding in /etc/sysctl.conf"
     except:
         return False, "Linux command sysctl failed"
+
+
+def is_swapping_disabled():
+    try:
+        swap = psutil.swap_memory()
+        if swap.total > 0:
+            return False, "Disable Swap memory in /etc/fstab"
+        else:
+            return True, "-"
+    except:
+        return False, "Checking for Swap memory failed"

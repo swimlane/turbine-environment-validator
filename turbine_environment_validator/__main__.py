@@ -75,6 +75,22 @@ def main():
             }
         })
 
+        ip_forward_check, ip_msg = verify_prerequisites.is_ip_forwarding_enabled()
+        check_results['checks']['prerequisites'].update({
+            "IP forwarding": {
+                "message": '-' if ip_forward_check else log_format(ip_msg, False),
+                "result": log_format('Passed', True) if ip_forward_check else log_format('Failed', False)
+            }
+        })
+
+        swap_memory_check, swap_msg = verify_prerequisites.is_swapping_disabled()
+        check_results['checks']['prerequisites'].update({
+            "Swap memory enabled": {
+                "message": '-' if swap_memory_check else log_format(swap_msg, False),
+                "result": log_format('Passed', True) if swap_memory_check else log_format('Failed', False)
+            }
+        })
+
         # NUMA check
         numa_check = verify_prerequisites.is_numa_disabled()
         numa_message = "-" if numa_check else "Disable NUMA in BIOS"
@@ -82,13 +98,6 @@ def main():
             'NUMA (non-uniform memory access) disabled': {
                 "message": '-' if numa_check else log_format(numa_message, False),
                 "result":  log_format('Passed', True) if numa_check else log_format('Failed', False),
-            }
-        })
-        ip_forward_check, ip_msg = verify_prerequisites.is_ip_forwarding_enabled()
-        check_results['checks']['prerequisites'].update({
-            "IP forwarding": {
-                "message": '-' if ip_forward_check else log_format(ip_msg, False),
-                "result": log_format('Passed', True) if ip_forward_check else log_format('Failed', False)
             }
         })
 
@@ -180,9 +189,9 @@ def main():
         check_results['checks']['http_proxy_config'].update(config.NETWORK)
 
         # Endpoint check
-        if config.FIREWALL and not config.arguments.offline:
-            check_results['checks']['public_endpoint_checks'].update(
-                verify_public_endpoints.check_endpoints(config.FIREWALL, config.NETWORK))
+        # if config.FIREWALL and not config.arguments.offline:
+        #     check_results['checks']['public_endpoint_checks'].update(
+        #         verify_public_endpoints.check_endpoints(config.FIREWALL, config.NETWORK))
 
         # NTP Check
         if config.NTP:
@@ -196,11 +205,11 @@ def main():
             check_results['checks']['dns'] = dns_res
 
         # Load Balancer Check
-        if config.LB_CONNECTIVITY_ENDPOINTS:
-            http_listener.start_lb_listener_threads(config.LB_CONNECTIVITY_PORTS)
-            logger.info('Sleeping for 90 seconds to allow LB to see that we are live')
-            time.sleep(90)
-            check_results['checks']['load_balancer_port_checks'].update(verify_load_balancer.verify_port_connectivity(config.LB_CONNECTIVITY_ENDPOINTS))
+        # if config.LB_CONNECTIVITY_ENDPOINTS:
+        #     http_listener.start_lb_listener_threads(config.LB_CONNECTIVITY_PORTS)
+        #     logger.info('Sleeping for 90 seconds to allow LB to see that we are live')
+        #     time.sleep(90)
+        #     check_results['checks']['load_balancer_port_checks'].update(verify_load_balancer.verify_port_connectivity(config.LB_CONNECTIVITY_ENDPOINTS))
 
         table.print_table(check_results['checks'])
 
