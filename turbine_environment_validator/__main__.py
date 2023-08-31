@@ -75,6 +75,22 @@ def main():
             }
         })
 
+        ip_forward_check, ip_msg = verify_prerequisites.is_ip_forwarding_enabled()
+        check_results['checks']['prerequisites'].update({
+            "IP forwarding": {
+                "message": '-' if ip_forward_check else log_format(ip_msg, False),
+                "result": log_format('Passed', True) if ip_forward_check else log_format('Failed', False)
+            }
+        })
+
+        swap_memory_check, swap_msg = verify_prerequisites.is_swapping_disabled()
+        check_results['checks']['prerequisites'].update({
+            "Swap memory enabled": {
+                "message": '-' if swap_memory_check else log_format(swap_msg, False),
+                "result": log_format('Passed', True) if swap_memory_check else log_format('Failed', False)
+            }
+        })
+
         # NUMA check
         numa_check = verify_prerequisites.is_numa_disabled()
         numa_message = "-" if numa_check else "Disable NUMA in BIOS"

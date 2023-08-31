@@ -2,10 +2,10 @@
 ## Overview
 This package contains everything you need to verify and ensure that your system adheres to specific requirements and configurations. The installer provided will perform checks on a Linux system using configurations provided in the system.json and network.json files. 
 
-This binary will run through various checks for the Turbine Platform Installer. It is designed to be run by the customer to verify their environment before engaging PS for the installation. This script is highly configurable, with various options to skip checks. Most checks are enabled by default. See `turbine-env-validator verify --help` for more information.
+This binary will run through various checks for the Turbine Platform Installer. It is designed to be run by the customer to verify their environment before engaging PS for the installation. This script is highly configurable, with various options to skip checks. Most checks are enabled by default. See `turbine-environment-validator verify --help` for more information.
 
 ## Package Contents
-* turbine-env-validator: The main executable that performs system and network checks.
+* turbine-environment-validator: The main executable that performs system and network checks.
 * system.json: Contains specifications related to the system such as compute, memory, storage, operating system support, directory requirements, and more.
 * network.json: Specifies network-related configurations, including proxy settings, load balancer configurations, firewall configurations, NTP services, DNS configuration, and intra-cluster ports.
 * system.schema.json: JSON schema for the system.json file. Ensures the structure and correctness of the configuration provided in the system.json file.
@@ -32,19 +32,19 @@ pip install virtualenv
 
 And finally, for either Ubuntu or CentOS / Red Hat:
 ```
-wget https://github.com/swimlane/turbine-environment-validator/releases/download/1.0.0/turbine-env-validator-1.0.0.zip
-chmod +x ./turbine-env-validator
-./turbine-env-validator verify
+wget https://github.com/swimlane/turbine-environment-validator/releases/download/1.0.0/turbine-environment-validator-1.0.0.zip
+chmod +x ./turbine-environment-validator
+./turbine-environment-validator verify
 
 ```
 
 ### Running the Installer
 - To run the installer using the default system.json and network.json shipped with the package:
-`./turbine-env-validator verify`
+`./turbine-environment-validator verify`
 - If you want to use custom configuration files, specify them using the --system-spec and --network-spec options:
-`./turbine-env-validator verify --system-spec /path/to/custom_system.json --network-spec /path/to/custom_network.json`
+`./turbine-environment-validator verify --system-spec /path/to/custom_system.json --network-spec /path/to/custom_network.json`
 - For the Load Balancer Listener daemon:
-`./turbine-env-validator listener`
+`./turbine-environment-validator listener`
 
 ## Arguments
 - --use-color: Enable or disable ANSI color codes. Useful for CI or non-interactive terminals.
