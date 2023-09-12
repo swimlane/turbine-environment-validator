@@ -5,11 +5,11 @@ This package contains everything you need to verify and ensure that your system 
 This binary will run through various checks for the Turbine Platform Installer. It is designed to be run by the customer to verify their environment before engaging PS for the installation. This script is highly configurable, with various options to skip checks. Most checks are enabled by default. See `turbine-environment-validator verify --help` for more information.
 
 ## Package Contents
-* turbine-environment-validator: The main executable that performs system and network checks.
-* system.json: Contains specifications related to the system such as compute, memory, storage, operating system support, directory requirements, and more.
-* network.json: Specifies network-related configurations, including proxy settings, load balancer configurations, firewall configurations, NTP services, DNS configuration, and intra-cluster ports.
-* system.schema.json: JSON schema for the system.json file. Ensures the structure and correctness of the configuration provided in the system.json file.
-* network.schema.json: JSON schema for the network.json file. Ensures the structure and correctness of the configuration provided in the network.json file.
+* **turbine-environment-validator**: The main executable that performs system and network checks.
+* **system.json**: Contains specifications related to the system such as compute, memory, storage, operating system support, directory requirements, and more.
+* **network.json**: Specifies network-related configurations, including proxy settings, load balancer configurations, firewall configurations, NTP services, DNS configuration, and intra-cluster ports.
+* **system.schema.json**: JSON schema for the system.json file. Ensures the structure and correctness of the configuration provided in the system.json file.
+* **network.schema.json**: JSON schema for the network.json file. Ensures the structure and correctness of the configuration provided in the network.json file.
 
 ## Usage
 If preparing for a new Swimlane installation.
