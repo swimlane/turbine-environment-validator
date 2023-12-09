@@ -1,5 +1,5 @@
 requests==2.27.1
-pyinstaller==4.7
+pyinstaller==5.13.1
 prettytable==2.0.0
 pycryptodome==3.9.9
 flask==2.0.3
