@@ -40,11 +40,11 @@ chmod +x ./turbine-environment-validator
 ```
 
 ### Running the Installer
-- To run the installer using the default system.json and network.json shipped with the package:
+- To run the installer using the default system.json and network.json shipped with the package: \
 `./turbine-environment-validator verify`
-- If you want to use custom configuration files, specify them using the --system-spec and --network-spec options:
+- If you want to use custom configuration files, specify them using the --system-spec and --network-spec options: \
 `./turbine-environment-validator verify --system-spec /path/to/custom_system.json --network-spec /path/to/custom_network.json`
-- For the Load Balancer Listener daemon:
+- For the Load Balancer Listener daemon: \
 `./turbine-environment-validator listener`
 
 ## Arguments
