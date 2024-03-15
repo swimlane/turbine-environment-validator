@@ -1,6 +1,6 @@
 # Turbine-environment-validator
 ## Overview
-This tool is designed to work with Embedded Cluster Installation (On-Prem) only. \
+_This tool is designed to work with Embedded Cluster Installation (On-Prem) only._ \
 This package contains everything you need to verify and ensure that your system adheres to specific requirements and configurations. The installer provided will perform checks on a Linux system using configurations provided in the system.json and network.json files. 
 
 This binary will run through various checks for the Turbine Platform Installer. It is designed to be run by the customer to verify their environment before engaging PS for the installation. This script is highly configurable, with various options to skip checks. Most checks are enabled by default. See `turbine-environment-validator verify --help` for more information.
@@ -30,14 +30,16 @@ apt -y install build-essential libssl-dev libffi-dev python-dev
 apt -y install python3-pip dnsutils
 pip install virtualenv
 ```
-
 And finally, for either Ubuntu or CentOS / Red Hat:
 ```
 wget https://github.com/swimlane/turbine-environment-validator/releases/download/1.1.0/turbine-environment-validator-1.1.0.zip
 unzip turbine-environment-validator-1.1.0.zip
+```
+The Out-of-box system.json and network.json files contains default values. The user is expected to change `dns` parameter  on `network.json` to meet client's host address.
+
+```
 chmod +x ./turbine-environment-validator
 ./turbine-environment-validator verify
-
 ```
 
 ### Running the Installer
