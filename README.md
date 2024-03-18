@@ -87,5 +87,6 @@ On some operating systems, the script will fail with `error while loading shared
 `turbine-environment-validator` is a [Swimlane](https://swimlane.com) open-source project; we believe in giving back to the open-source community by sharing some of the projects we build for our application. Swimlane is an automated cyber security operations and incident response platform that enables cyber security teams to leverage threat intelligence, speed up incident response and automate security operations.
 
 ## Useful Links
+- [Official Docs](https://docs.swimlane.com/turbine_installer/embedded-cluster-install/system-requirements-for-an-embedded-cluster-install/system-requirements-for-an-embedded-cluster-install.htm)
 - [Pre-Check Script Confluence Page](https://swimlane.atlassian.net/l/cp/bkFE7orR)
 - [Demo Video](https://swimlane.atlassian.net/l/cp/6ktRUaVZ)
