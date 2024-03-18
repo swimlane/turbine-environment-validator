@@ -181,29 +181,29 @@
       "path": "/"
     },
     {
-      "minimum_size": "50",
-      "path": "/opt"
-    },
-    {
       "minimum_size": "100",
-      "path": "/var/lib/docker"
+      "path": "/var/lib/containerd"
     },
     {
       "minimum_size": "100",
       "path": "/var/lib/kubelet"
     },
     {
-      "minimum_size": "50",
+      "minimum_size": "300",
       "path": "/var/openebs"
+    },
+    {
+      "minimum_size": "2",
+      "path": "/var/lib/apiserver"
     }
   ],
 
    // Directories that need to be mounted.
   "directory_mount": [
     "/var/openebs",
-    "/var/lib/docker",
+    "/var/lib/containerd",
     "/var/lib/kubelet",
-    "/opt"
+    "/var/lib/apiserver"
   ],
 
    // List of executables that are disallowed.
