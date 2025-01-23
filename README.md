@@ -32,8 +32,8 @@ pip install virtualenv
 ```
 And finally, for either Ubuntu or CentOS / Red Hat:
 ```
-wget https://github.com/swimlane/turbine-environment-validator/releases/download/1.1.0/turbine-environment-validator-1.1.0.zip
-unzip turbine-environment-validator-1.1.0.zip
+wget https://github.com/swimlane/turbine-environment-validator/releases/download/1.1.2/turbine-environment-validator-1.1.2.zip
+unzip turbine-environment-validator-1.1.2.zip
 ```
 The Out-of-box system.json and network.json files contains default values. The user is expected to change `dns` parameter  on `network.json` to meet client's host address.
 
